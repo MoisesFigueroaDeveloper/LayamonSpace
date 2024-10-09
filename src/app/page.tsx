@@ -113,7 +113,7 @@ export default function Component() {
         <div className="container max-w-7xl mx-auto flex h-14 items-center justify-between px-4">
           <Link className="flex items-center justify-center" href="#">
             <Code className="h-6 w-6 text-teal-500" />
-            <span className="ml-2 text-lg font-bold">TechMarkPro</span>
+            <span className="ml-2 text-lg font-bold">Layamon</span>
           </Link>
           <nav className="hidden md:flex gap-6">
             {[

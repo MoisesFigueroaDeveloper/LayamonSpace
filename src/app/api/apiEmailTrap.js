@@ -1,39 +1,27 @@
-const handleContactSubmit = async (e) => {
-  e.preventDefault();
+const { MailtrapClient } = require("mailtrap");
 
-  // Recoger los datos del formulario
-  const formData = {
-    name: e.target.name.value,
-    email: e.target.email.value,
-    message: e.target.message.value,
-  };
+const TOKEN = "e85c00271d965edd1ecbaefbbdd1cbb9";
 
-  try {
-    // Aquí irá la llamada a la API para enviar el correo
-    // const response = await fetch('/api/send-email', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(formData),
-    // });
+const client = new MailtrapClient({
+  token: TOKEN,
+});
 
-    // if (response.ok) {
-    //   alert('Mensaje enviado con éxito. Gracias por contactarnos!');
-    //   // Limpiar el formulario
-    //   e.target.reset();
-    // } else {
-    //   throw new Error('Error al enviar el mensaje');
-    // }
-
-    // Por ahora, solo mostraremos un mensaje de éxito
-    console.log("Datos del formulario:", formData);
-    alert("Gracias por tu mensaje. Te contactaremos pronto. (Simulación)");
-    e.target.reset();
-  } catch (error) {
-    console.error("Error:", error);
-    alert(
-      "Hubo un error al enviar el mensaje. Por favor, intenta de nuevo más tarde.",
-    );
-  }
+const sender = {
+  email: "hello@layamon.com",
+  name: "Mailtrap Test",
 };
+const recipients = [
+  {
+    email: "moisesfigueroadeveloper@gmail.com",
+  },
+];
+
+client.bulk
+  .send({
+    from: sender,
+    to: recipients,
+    subject: "You are awesome!",
+    text: "Congrats for sending test email with Mailtrap!",
+    category: "Integration Test",
+  })
+  .then(console.log, console.error);

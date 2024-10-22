@@ -94,7 +94,33 @@ export default function Component() {
 
   const handleContactSubmit = async (e) => {
     e.preventDefault();
-    alert("Gracias por tu mensaje. Te contactaremos pronto.");
+    const formData = {
+      name: e.target.name.value,
+      email: e.target.email.value,
+      message: e.target.message.value,
+    };
+
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        alert("Mensaje enviado con éxito. Gracias por contactarnos!");
+        e.target.reset();
+      } else {
+        throw new Error("Error al enviar el mensaje");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert(
+        "Hubo un error al enviar el mensaje. Por favor, intenta de nuevo más tarde.",
+      );
+    }
   };
 
   const nextTestimonial = () => {
@@ -548,6 +574,7 @@ export default function Component() {
                   </label>
                   <Input
                     id="name"
+                    name="name"
                     placeholder="Tu nombre"
                     required
                     className="w-full bg-gray-50 border-gray-300"
@@ -562,6 +589,7 @@ export default function Component() {
                   </label>
                   <Input
                     id="email"
+                    name="email"
                     placeholder="tu@email.com"
                     type="email"
                     required
@@ -577,6 +605,7 @@ export default function Component() {
                   </label>
                   <Textarea
                     id="message"
+                    name="message"
                     placeholder="Tu mensaje"
                     required
                     className="w-full bg-gray-50 border-gray-300"
